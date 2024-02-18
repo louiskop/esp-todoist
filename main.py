@@ -38,7 +38,32 @@ off_times = data["schedule"]["days"][0]["stages"][int(stage) - 1]
 # ESP - Print quota left
 print(esp_API("https://developer.sepush.co.za/business/2.0/api_allowance"))
 
-# TODOIST - 
+# TODO: TODOIST - Remove all previous loadshedding tasks of the day
 
+# TODOIST - Add load shedding as tasks
+try:
+    for i, period in enumerate(off_times): 
+        period = period.split("-");
+
+        # Add starting time
+        task = todoist_API.add_task(
+            content="* Loadshedding Starts",
+            labels=["LOADSHEDDING"],
+            due_string="today at " + period[0],
+            due_lang="en",
+            priority=3,
+        )
+
+        # Add ending time
+        task = todoist_API.add_task(
+            content="* Loadshedding Ends",
+            labels=["LOADSHEDDING"],
+            due_string="today at " + period[1],
+            due_lang="en",
+            priority=3,
+        )
+
+except Exception as error:
+    print(error)
 
 
